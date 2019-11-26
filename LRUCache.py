@@ -52,7 +52,8 @@ class LRUCache:
         if key in self.valdict:
             self.__removeFromCache(self.valdict[key])
             del self.valdict[key]
-            print('Value was in cache, overwritten')
+            #print('Value was in cache, overwritten')
+
         else:
             #If cache full, remove LRU
             if len(self.valdict)>= self.size:
@@ -60,13 +61,13 @@ class LRUCache:
                 del self.valdict[self.tail.prev.key]
                 #Remove LRU node
                 self.__removeFromCache(self.tail.prev)
-                print('Cache was full, LRU removed')
+                #print('Cache was full, LRU removed')
 
         # Add new value (MRU) to head.next
         self.__addtoCache(node)
         # Add new value to hashmap
         self.valdict[key] = node
-        print('New value added')
+        #print('New value added')
 
     #Function for deleting a key and its value from the cache
     def delete(self, key):
@@ -74,7 +75,7 @@ class LRUCache:
             node = self.valdict[key]
             self.__removeFromCache(node)
             del self.valdict[key]
-            print('Value was deleted')
+            #print('Value was deleted')
 
         else:
             print('Value is not in cache and cannot be deleted')
@@ -86,7 +87,7 @@ class LRUCache:
         self.tail.prev = self.head
         #Clear hashmap
         self.valdict.clear()
-        print('Cache was reset')
+       # print('Cache was reset')
 
     #Debugging function for printing values for linkedlist
     def printcache(self):
@@ -96,6 +97,8 @@ class LRUCache:
             node = node.next
         print()
 def main():
+
+
     lrucache = LRUCache(2)
     lrucache.put(1,1)
     lrucache.put(2,2);
