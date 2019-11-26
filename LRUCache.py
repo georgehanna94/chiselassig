@@ -18,15 +18,17 @@ class LRUCache:
         self.head.next = self.tail
         self.tail.prev = self.head
 
-    def addtoCache(self,node):
+    #Private Method, Used for adding new recently used item
+    def __addtoCache(self,node):
         node.next = self.head.next
         self.head.next.prev = node
         node.prev = self.head
         self.head.next = node
 
-    def removeFromCache(self, node):
-        self.tail.prev = node.prev
-        node.prev.next = self.tail
+    #Private Method, Used for removing least recently used item
+    def __removeFromCache(self, node):
+        node.next.prev = node.prev
+        node.prev.next = node.next
 
     #Function for getting the value corresponding to a key
     def get(self,key):
@@ -34,39 +36,41 @@ class LRUCache:
         if key in self.valdict:
             node = self.valdict[key]
             #Remove it from its current position
-            self.removeFromCache(node)
+            self.__removeFromCache(node)
             #Add it to the top of the linkedlist
-            self.addtoCache(node)
+            self.__addtoCache(node)
             return node.val
         else:
             return -1
 
     #Function for putting a key and its value in the cache
     def put(self,key,value):
-        #If key is already in cache, add and remove it
-        if key in self.valdict:
-            self.removeFromCache(self.valdict[key])
-            self.addtoCache(self.valdict[key])
+        #Create new node
+        node = Node(key, value)
 
+        #If key is already in cache, remove it first
+        if key in self.valdict:
+            self.__removeFromCache(self.valdict[key])
+            del self.valdict[key]
         else:
             #If cache full, remove LRU
             if len(self.valdict)>= self.size:
                 #Remove LRU node
-                self.removeFromCache(self.tail.prev)
+                self.__removeFromCache(self.tail.prev)
                 #Remove it from HashMap
                 del self.valdict[self.tail.prev.key]
 
-            # Add new value (MRU) to head.next
-            self.addtoCache(Node(key, value))
-            # Add new value to hashmap
-            self.valdict[key] = Node(key, value)
+        # Add new value (MRU) to head.next
+        self.__addtoCache(node)
+        # Add new value to hashmap
+        self.valdict[key] = node
 
 
     #Function for deleting a key and its value from the cache
     def delete(self, key):
         if key in self.valdict:
             node = self.valdict[key]
-            self.removeFromCache(node)
+            self.__removeFromCache(node)
             del self.valdict[key]
 
         else:
@@ -80,4 +84,3 @@ class LRUCache:
         #Clear hashmap
         self.valdict.clear()
 
-         
