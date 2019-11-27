@@ -6,6 +6,10 @@ The implementation makes use of a dictionary and a doubly linked list to manage 
 
 
 ### Initialization
+Requirements:
+- Python 3
+
+
 To initialize the cache, specify the intended size and make the following call:
 ```python
 lruCache = LRUCache(<int size>)
