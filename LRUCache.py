@@ -96,24 +96,19 @@ class LRUCache:
             print(node.val, end =">")
             node = node.next
         print()
+
 def main():
 
-
+    '''Sample Calls'''
     lrucache = LRUCache(2)
     lrucache.put(1,1)
     lrucache.put(2,2);
     print(lrucache.get(1))
     lrucache.put(2,2)
     print(lrucache.get(1))
-    lrucache.put(4,4)
-    print(lrucache.get(1))
-    print(lrucache.get(3))
-    print(lrucache.get(4))
     print()
     lrucache.printcache()
-
     lrucache.reset()
-    lrucache.printcache()
 
 
 if __name__ == '__main__':
