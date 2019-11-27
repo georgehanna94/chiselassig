@@ -29,7 +29,7 @@ The 'get' method allows for retrieval of items from the cache by means of the 'k
 
 ```python
 lruCache.get(key)
-e.g. lruCache.get(2)
+e.g. lruCache.get(2) #Fetch the cache entry with key 2
 ```
 
 Note:
@@ -41,7 +41,7 @@ The 'del' method allows for the deletion of specific items from the cache by mea
 
 ```python
 lruCache.del(key)
-e.g. lruCache.del(key)
+e.g. lruCache.del(5) #Delete the cache entry with key 5
 ```
 
 Note:
