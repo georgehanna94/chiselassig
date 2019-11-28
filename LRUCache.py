@@ -11,6 +11,11 @@ class Node:
 #Class Object for the Cache, built on top of a hash map and a doubly linkedlist
 class LRUCache:
     def __init__(self,size):
+
+        #Check size input
+        if size <= 0:
+            raise ValueError("Cache Size must be > 0")
+
         self.size = size
         self.valdict = dict()
         self.head = Node(0,0)
@@ -30,8 +35,14 @@ class LRUCache:
         node.next.prev = node.prev
         node.prev.next = node.next
 
+    #Public Methods
     #Function for getting the value corresponding to a key
     def get(self,key):
+        """
+        :type key: int
+        :rtype: int
+        """
+
         # Modify its position to top of the linkedlist
         if key in self.valdict:
             node = self.valdict[key]
@@ -45,6 +56,12 @@ class LRUCache:
 
     #Function for putting a key and its value in the cache
     def put(self,key,value):
+        """
+        :type key: int
+        :type value: int
+        :rtype nothing
+        """
+
         #Create new node
         node = Node(key, value)
 
@@ -52,7 +69,6 @@ class LRUCache:
         if key in self.valdict:
             self.__removeFromCache(self.valdict[key])
             del self.valdict[key]
-            #print('Value was in cache, overwritten')
 
         else:
             #If cache full, remove LRU
@@ -61,36 +77,44 @@ class LRUCache:
                 del self.valdict[self.tail.prev.key]
                 #Remove LRU node
                 self.__removeFromCache(self.tail.prev)
-                #print('Cache was full, LRU removed')
 
         # Add new value (MRU) to head.next
         self.__addtoCache(node)
         # Add new value to hashmap
         self.valdict[key] = node
-        #print('New value added')
 
     #Function for deleting a key and its value from the cache
     def delete(self, key):
+        '''
+        :type key: int
+        :rtype nothing
+        '''
+
         if key in self.valdict:
             node = self.valdict[key]
             self.__removeFromCache(node)
             del self.valdict[key]
-            #print('Value was deleted')
-
         else:
             print('Value is not in cache and cannot be deleted')
 
     #Function for resetting the cache
     def reset(self):
+        '''
+        :rtype nothing
+        '''
+
         #Reset linkedlist
         self.head.next = self.tail
         self.tail.prev = self.head
         #Clear hashmap
         self.valdict.clear()
-       # print('Cache was reset')
 
     #Debugging function for printing values for linkedlist
     def printcache(self):
+        '''
+        :rtype nothing
+        '''
+
         node = self.head.next
         while node.next:
             print(node.val, end =">")
